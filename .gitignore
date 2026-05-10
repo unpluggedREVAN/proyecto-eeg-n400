@@ -1,0 +1,108 @@
+# =====================================================================
+# Datos del proyecto — NUNCA se versionan en el repo
+# =====================================================================
+dataset/
+data/
+
+# Archivos EEG procesados
+*.fif
+*.set
+*.fdt
+*.xdf
+*.edf
+*.bdf
+
+# Outputs intermedios (se regeneran corriendo los notebooks)
+features/*.csv
+features/*.parquet
+features/*.pkl
+models/*.pkl
+models/*.joblib
+logs/*.db
+logs/*.log
+reports/*.json
+reports/*.csv
+
+# Mantener carpetas vacías
+!**/.gitkeep
+
+# =====================================================================
+# Figuras grandes — pueden subirse selectivamente si pesan poco
+# =====================================================================
+figures/*.png
+figures/*.jpg
+figures/*.svg
+figures/*.pdf
+
+# =====================================================================
+# Python
+# =====================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# =====================================================================
+# Jupyter
+# =====================================================================
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+profile_default/
+ipython_config.py
+
+# =====================================================================
+# Entornos virtuales
+# =====================================================================
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# =====================================================================
+# Sistemas operativos
+# =====================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# =====================================================================
+# Editores
+# =====================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# =====================================================================
+# Secrets (por si acaso)
+# =====================================================================
+.secrets
+*.pem
+*.key
+secrets.yaml
+.env.local

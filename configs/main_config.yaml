@@ -1,0 +1,149 @@
+# =====================================================================
+# Configuración global del pipeline
+# Cambiando valores aquí, todos los notebooks se ajustan.
+# =====================================================================
+
+project:
+  name: "EEG-N400-Classification"
+  authors:
+    - "Jose Pablo Agüero Mora"
+    - "Roilin Navarro Vargas"
+  course: "Inteligencia Artificial - TEC Sede Cartago"
+
+# ---------------------------------------------------------------------
+# Semilla global para reproducibilidad
+# ---------------------------------------------------------------------
+seed: 42
+
+# ---------------------------------------------------------------------
+# Rutas (relativas al PROJECT_ROOT_DRIVE en Colab)
+# ---------------------------------------------------------------------
+paths:
+  project_root_drive: "/content/drive/MyDrive/IA_Proyecto_EEG"
+  dataset_root:       "/content/drive/MyDrive/IA_Proyecto_EEG/dataset"
+  reports_dir:        "reports"
+  figures_dir:        "figures"
+  features_dir:       "features"
+  models_dir:         "models"
+  logs_dir:           "logs"
+
+# ---------------------------------------------------------------------
+# Información del dataset
+# ---------------------------------------------------------------------
+data:
+  sfreq: 250                          # Hz (Muse 2)
+  n_channels: 4
+  channels:
+    - TP9                             # temporal-parietal izq
+    - AF7                             # frontal izq
+    - AF8                             # frontal der
+    - TP10                            # temporal-parietal der
+
+  # Sujetos a tratar con cuidado (identificados en Etapa 1)
+  outliers_behavioral:                # accuracy baja vs grupo
+    - MU11
+    - MU20
+    - MU27
+  outliers_signal_quality:            # banderas en archivos .set
+    - mu03erp
+    - mu09erp
+    - mu13erp
+    - mu25erp
+    - mu27erp
+    - mu32erp
+
+  # Política inicial: conservar todos; sensitivity analysis en Notebook 08
+  exclude_outliers_in_main: false
+
+# ---------------------------------------------------------------------
+# Preprocesamiento (Notebook 01)
+# ---------------------------------------------------------------------
+preprocessing:
+  # Filtros (se aplican solo si los .set son señal continua)
+  apply_notch: true
+  notch_freq: 60.0                    # Hz, frecuencia red eléctrica USA
+  apply_bandpass: true
+  bandpass_low: 0.1                   # Hz
+  bandpass_high: 30.0                 # Hz (ERP relevante < 30 Hz)
+
+  # Ventana de epoching alineada al onset del target
+  epoch_tmin: -0.1                    # s (= -100 ms)
+  epoch_tmax:  0.9                    # s (=  900 ms)
+
+  # Baseline correction
+  baseline_tmin: -0.1                 # s
+  baseline_tmax:  0.0                 # s
+
+  # Rechazo de epochs por peak-to-peak
+  # Probamos múltiples umbrales; este es el operativo por defecto.
+  artifact_rejection_uv: 150.0        # ±µV
+
+  # Conservar solo trials con respuesta correcta
+  keep_only_correct: true
+
+# ---------------------------------------------------------------------
+# Ventana N400 y cluster Hayes & Magne 2024
+# ---------------------------------------------------------------------
+n400:
+  window_tmin: 0.250                  # s
+  window_tmax: 0.600                  # s
+
+  # Cluster significativo reportado en Hayes & Magne 2024 (AF8)
+  af8_cluster_tmin: 0.250
+  af8_cluster_tmax: 0.328
+
+# ---------------------------------------------------------------------
+# Bandas de frecuencia (Hz) para features de potencia
+# ---------------------------------------------------------------------
+freq_bands:
+  delta: [1, 4]
+  theta: [4, 8]
+  alpha: [8, 13]
+  beta:  [13, 30]
+
+# ---------------------------------------------------------------------
+# Splits y validación (Notebooks 04+)
+# ---------------------------------------------------------------------
+splits:
+  # Test holdout: sujetos completos que nunca se usan en tuning
+  n_holdout_subjects: 5               # de 29 sujetos Included
+
+  # Cross-validation interna (sobre los sujetos no-holdout)
+  cv_n_splits: 5                      # GroupKFold
+
+  # LOSO se hace adicionalmente como evaluación secundaria
+
+# ---------------------------------------------------------------------
+# Optuna (Notebook 05)
+# ---------------------------------------------------------------------
+optuna:
+  n_trials: 200
+  timeout_seconds: null               # null = sin timeout
+  pruner: "MedianPruner"              # corta trials malos temprano
+  study_name: "eeg_main_tuning"
+  storage_relative: "logs/optuna_study.db"   # SQLite resumible en Drive
+
+# ---------------------------------------------------------------------
+# Métricas
+# ---------------------------------------------------------------------
+metrics:
+  primary: "f1_macro"
+  secondary:
+    - accuracy
+    - roc_auc
+    - precision_macro
+    - recall_macro
+
+  # Bootstrap CI 95% sobre métricas finales
+  bootstrap_n_iterations: 1000
+  bootstrap_ci_level: 0.95
+
+# ---------------------------------------------------------------------
+# Modelos a evaluar (Notebook 04)
+# ---------------------------------------------------------------------
+models_to_compare:
+  - logistic_regression
+  - svm_rbf
+  - random_forest
+  - xgboost
+  - lightgbm
