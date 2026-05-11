@@ -16,11 +16,22 @@ project:
 seed: 42
 
 # ---------------------------------------------------------------------
-# Rutas (relativas al PROJECT_ROOT_DRIVE en Colab)
+# Rutas
+#
+# Estructura asumida:
+#   /content/drive/MyDrive/IA_Proyecto_EEG/proyecto-eeg-n400/
+#   ├── configs/
+#   ├── notebooks/
+#   ├── dataset/         (datos del paper, NO se versionan)
+#   ├── reports/         (outputs JSON/CSV, NO se versionan)
+#   ├── figures/
+#   ├── features/
+#   ├── models/
+#   └── logs/
 # ---------------------------------------------------------------------
 paths:
-  project_root_drive: "/content/drive/MyDrive/IA_Proyecto_EEG"
-  dataset_root:       "/content/drive/MyDrive/IA_Proyecto_EEG/dataset"
+  project_root_drive: "/content/drive/MyDrive/IA_Proyecto_EEG/proyecto-eeg-n400"
+  dataset_root:       "/content/drive/MyDrive/IA_Proyecto_EEG/proyecto-eeg-n400/dataset"
   reports_dir:        "reports"
   figures_dir:        "figures"
   features_dir:       "features"
@@ -75,7 +86,6 @@ preprocessing:
   baseline_tmax:  0.0                 # s
 
   # Rechazo de epochs por peak-to-peak
-  # Probamos múltiples umbrales; este es el operativo por defecto.
   artifact_rejection_uv: 150.0        # ±µV
 
   # Conservar solo trials con respuesta correcta
