@@ -1,0 +1,23 @@
+{
+  "subject": "mu08erp",
+  "n_loaded": 107,
+  "ch_names": [
+    "AF7",
+    "AF8"
+  ],
+  "n_channels": 2,
+  "sfreq": 256.0,
+  "tmin_ms": -101.5625,
+  "tmax_ms": 894.53125,
+  "baseline_applied": [
+    -0.1,
+    0.0
+  ],
+  "n_after_correct_filter": 48,
+  "n_match_correct_before_reject": 28,
+  "n_mismatch_correct_before_reject": 20,
+  "n_after_artifact_reject": 48,
+  "rejection_threshold_uv": 150.0,
+  "n_match_correct_final": 28,
+  "n_mismatch_correct_final": 20
+}

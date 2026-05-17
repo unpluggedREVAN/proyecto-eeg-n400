@@ -1,0 +1,23 @@
+{
+  "subject": "mu19erp",
+  "n_loaded": 104,
+  "ch_names": [
+    "AF7",
+    "AF8"
+  ],
+  "n_channels": 2,
+  "sfreq": 256.0,
+  "tmin_ms": -101.5625,
+  "tmax_ms": 894.53125,
+  "baseline_applied": [
+    -0.1,
+    0.0
+  ],
+  "n_after_correct_filter": 93,
+  "n_match_correct_before_reject": 47,
+  "n_mismatch_correct_before_reject": 46,
+  "n_after_artifact_reject": 93,
+  "rejection_threshold_uv": 150.0,
+  "n_match_correct_final": 47,
+  "n_mismatch_correct_final": 46
+}
