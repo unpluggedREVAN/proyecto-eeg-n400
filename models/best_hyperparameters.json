@@ -1,0 +1,21 @@
+{
+  "winner_name": "LightGBM_tuned",
+  "hyperparameters": {
+    "n_estimators": 74,
+    "learning_rate": 0.012504220625190469,
+    "max_depth": 9,
+    "num_leaves": 78,
+    "min_child_samples": 89,
+    "reg_alpha": 0.0032369337277773137,
+    "reg_lambda": 0.02208519739996559,
+    "subsample": 0.8204468563361671,
+    "colsample_bytree": 0.7196443590899224
+  },
+  "cv_f1_macro": 0.558091772875021,
+  "cv_f1_macro_ci": [
+    0.5308565559325323,
+    0.5868607774265088
+  ],
+  "cv_accuracy": 0.5653311793214861,
+  "cv_roc_auc": 0.5469167075150042
+}
